@@ -3,9 +3,9 @@
 #"joint_name: <double_value>"
 #values contains the initial position of the mutable joints
 #---
-head_cam_link_x_joint: 0.25
-head_cam_link_y_joint: 0.05
-head_cam_link_z_joint: 0.5
-head_cam_link_roll_joint: 3.14
-head_cam_link_pitch_joint: -2.6
-head_cam_link_yaw_joint: 3.14
+head_cam_link_x_joint: 0.0023882
+head_cam_link_y_joint: -0.11747
+head_cam_link_z_joint: 0.044033
+head_cam_link_roll_joint: -3.1416
+head_cam_link_pitch_joint: -1.1345
+head_cam_link_yaw_joint: 1.5708

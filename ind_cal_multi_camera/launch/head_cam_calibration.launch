@@ -1,21 +1,23 @@
 <?xml version="1.0" ?>
 <launch>
 
+  <arg name="cam_model" default="$(find ind_cal_multi_camera)/urdf/head_cam.urdf.xacro" />
+  <arg name="robot" default="head_cam"/>
   <arg name="use_gui" default="true"/>
+
+  <!-- Load the xacro file of the tower and cameras onto the parameter server as a robot description -->
+  <param name="$(arg robot)/robot_description" command="$(find xacro)/xacro.py $(arg cam_model)" />
+
+  <!-- Launch robot state publishers for both towers -->
+  <node ns="$(arg robot)" name="camera_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+      <param name="publish_frequency" value="50" />
+  </node>
 
   <!-- Run the head_cam -->
   <include file="$(find lwr_peg_in_hole)/launch/kuka_cam.launch" />
 
-  <!-- Run the robot -->
-  <include file="$(find lwr_description)/launch/lwr_test.launch">
-    <arg name="load_ati_sensor" value="true" />
-    <arg name="load_handle" value="true" />
-    <arg name="load_head_cam" value="true" />
-    <arg name="load_table" value="true" />
-    <arg name="load_base" value="true" />
-  </include>
 
-  <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0 0 0 0 0 0 /ati_link /target_frame 100" output="screen" />
+  <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0.345 0.118 0 3.1416 0 0 /base_link /target_frame 100" output="screen" />
 
   <!-- Launch the extrinsic calibration service -->
   <node pkg="industrial_extrinsic_cal" type="service_node" name="calibration_service_node" output="screen" >
@@ -31,7 +33,7 @@
 
   <node name="head_cam_loc" pkg="industrial_extrinsic_cal" type="mutable_joint_state_publisher" >
     <param name="mutable_joint_state_yaml_file" value="$(find ind_cal_multi_camera)/yaml/head_cam_mutable_joint_states.yaml" />
-    <remap from="mutable_joint_states" to="joint_states" />
+    <remap from="mutable_joint_states" to="$(arg robot)/joint_states" />
   </node>
 
   <node if="$(arg use_gui)" name="cal_gui" pkg="calibrate_gui" type="calibrate_gui" />

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="head_cam">
+
+    <xacro:include filename="$(find industrial_extrinsic_cal)/urdf/calibration_transform_macro.xacro" />
+
+    <link name="ati_link"/>
+
+    <link name="head_cam_link">
+      <inertial>
+        <origin xyz="-0.00025044 -1.1935E-15 -0.0028882" rpy="0 0 0" />
+        <mass value="0.036942" />
+        <inertia
+          ixx="9.1578E-06"
+          ixy="-1.207E-20"
+          ixz="-8.1587E-10"
+          iyy="8.8696E-06"
+          iyz="-8.61E-22"
+          izz="1.7832E-05" />
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://lwr_description/meshes/head_cam/head_cam.stl" />
+        </geometry>
+        <material name="">
+          <color rgba="0.498039215686275 0.498039215686275 0.498039215686275 1" />
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://lwr_description/meshes/head_cam/head_cam.stl" />
+        </geometry>
+      </collision>
+    </link>
+    <!-- <joint name="ati_to_cam_joint" type="fixed">
+      <origin
+        xyz="0.0023882 -0.12154 0.044879"
+        rpy="-3.1416 -1.1781 1.5708" />
+      <parent link="ati_link" />
+      <child link="head_cam_link" />
+      <axis xyz="0 0 0" />
+      <limit effort="400" velocity="0" lower="0" upper="0" />
+    </joint> -->
+    <link name="head_cam_link_optical" />
+    <joint name="head_cam_optical_joint" type="fixed">
+      <!-- these values have to be these values otherwise the gazebo camera
+          image won't be aligned properly with the frame it is supposedly
+          originating from -->
+      <!-- <origin xyz="0 0 0" rpy="-1.570796 0 -1.570796"/> -->
+      <origin xyz="0 0 0" rpy="-1.570796 0 -1.570796"/>
+      <parent link="head_cam_link"/>
+      <child link="head_cam_link_optical"/>
+      <limit effort="400" velocity="0" lower="0" upper="0" />
+    </joint>
+
+    <xacro:calibration_definitions child_link="head_cam_link" parent_link="ati_link" />
+
+</robot>
