@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <arg name="use_gui" default="true"/>
+
+  <!-- Run the head_cam -->
+  <include file="$(find lwr_peg_in_hole)/launch/kuka_cam.launch" />
+
+  <!-- Run the robot -->
+  <include file="$(find lwr_description)/launch/lwr_test.launch">
+    <arg name="load_ati_sensor" value="true" />
+    <arg name="load_handle" value="true" />
+    <arg name="load_head_cam" value="true" />
+    <arg name="load_table" value="true" />
+    <arg name="load_base" value="true" />
+  </include>
+
+  <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0 0 0 0 0 0 /ati_link /target_frame 100" output="screen" />
+
+  <!-- Launch the extrinsic calibration service -->
+  <node pkg="industrial_extrinsic_cal" type="service_node" name="calibration_service_node" output="screen" >
+    <param name="yaml_file_path" value="$(find ind_cal_multi_camera)/yaml/" />
+    <rosparam>
+      camera_file: "head_cam_cameras.yaml"
+      target_file: "head_cam_targets.yaml"
+      cal_job_file: "head_cam_caljob.yaml"
+      store_results_package_name: "ind_cal_multi_camera"
+      store_results_file_name: "head_cam_transform_new.launch"
+    </rosparam>
+  </node>
+
+  <node name="head_cam_loc" pkg="industrial_extrinsic_cal" type="mutable_joint_state_publisher" >
+    <param name="mutable_joint_state_yaml_file" value="$(find ind_cal_multi_camera)/yaml/head_cam_mutable_joint_states.yaml" />
+    <remap from="mutable_joint_states" to="joint_states" />
+  </node>
+
+  <node if="$(arg use_gui)" name="cal_gui" pkg="calibrate_gui" type="calibrate_gui" />
+
+</launch>

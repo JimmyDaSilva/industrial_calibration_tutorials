@@ -2,7 +2,7 @@
 
 <robot name="data_aquisition" xmlns:xacro="http://ros.org/wiki/xacro">
      <xacro:include filename="$(find ind_cal_multi_camera)/urdf/tower_macro.xacro" />
-     
+
       <link name="world_frame" />
       <link name="target_frame" >
 	<visual>
@@ -19,7 +19,6 @@
      </joint>
 
       <xacro:tower_def tower_name="T1" parent_link="world_frame" x_location="-1.5" y_location="5.0" z_location="0.0" yaw="0.0"/>
-      <xacro:tower_def tower_name="T2" parent_link="world_frame" x_location=" 1.5" y_location="5.0" z_location="0.0" yaw="3.14"/>
+      <!--xacro:tower_def tower_name="T2" parent_link="world_frame" x_location=" 1.5" y_location="5.0" z_location="0.0" yaw="3.14"/-->
 
 </robot>
-
