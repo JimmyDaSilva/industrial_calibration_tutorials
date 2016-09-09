@@ -17,7 +17,7 @@
   <include file="$(find lwr_peg_in_hole)/launch/kuka_cam.launch" />
 
 
-  <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0.345 0.118 0 3.1416 0 0 /base_link /target_frame 100" output="screen" />
+  <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0.316 0.1025 0 3.1416 0 0 /base_link /target_frame 100" output="screen" />
 
   <!-- Launch the extrinsic calibration service -->
   <node pkg="industrial_extrinsic_cal" type="service_node" name="calibration_service_node" output="screen" >
