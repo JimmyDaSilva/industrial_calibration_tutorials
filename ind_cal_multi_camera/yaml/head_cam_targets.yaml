@@ -14,7 +14,7 @@ static_targets:
     position_z: 0.0
     target_rows: 8
     target_cols: 6
-    num_points: 56
+    num_points: 48
     points:
     - pnt: [0.0, 0.175, 0.0]
     - pnt: [0.025, 0.175, 0.0]
