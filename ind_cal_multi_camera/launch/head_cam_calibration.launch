@@ -19,6 +19,13 @@
 
   <node pkg="tf" type="static_transform_publisher" name="pub_target_frame" args="0.316 0.1025 0 3.1416 0 0 /base_link /target_frame 100" output="screen" />
 
+  <!-- Launch service which when called will move robot and then indicate scene is ready   -->
+  <node pkg="industrial_extrinsic_cal" type="camera_observer_scene_trigger" name="observer_trigger" output="screen" >
+      <param name="target_type" value="0" />
+      <param name="pattern_rows" value="8" />
+      <param name="pattern_cols" value="6" />
+  </node>
+
   <!-- Launch the extrinsic calibration service -->
   <node pkg="industrial_extrinsic_cal" type="service_node" name="calibration_service_node" output="screen" >
     <param name="yaml_file_path" value="$(find ind_cal_multi_camera)/yaml/" />
